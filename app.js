@@ -1,0 +1,8 @@
+const koa = require('koa')
+const app = new koa()
+// const classic = require('./app/api/classic')
+const InitClass = require('./app/util/init')
+// const newInitClass = new InitClass()
+InitClass.initPro(app)
+// app.use(classic.routes())
+app.listen(8000)
