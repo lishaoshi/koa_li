@@ -3,9 +3,9 @@
  */
 
  class httpException extends Error {
-   constructor() {
+   constructor(msg) {
      super()
-     this.message = '参数错误';
+     this.msg = msg ||　'错误';
      this.code = 100
    }
  }
