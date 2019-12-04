@@ -7,7 +7,7 @@ const handleHttp = async (ctx, next) => {
   } catch (error) {
    if(error instanceof ParameterException) {
       ctx.body = {
-          msg: error.msg,
+          msg: error.msg[0],
           code: error.errorCode,
           request: `${ctx.method} ${ctx.path}` 
       }

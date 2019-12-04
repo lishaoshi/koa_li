@@ -13,18 +13,16 @@ const {
     last,
     set,
     cloneDeep
-} = require("lodash")
+} = require('lodash')
 const {
     findMembers
 } = require('./util')
-
 
 class LinValidator {
     constructor() {
         this.data = {}
         this.parsed = {}
     }
-
 
     _assembleAllParams(ctx) {
         return {
@@ -83,17 +81,16 @@ class LinValidator {
                 errorMsgs.push(result.msg)
             }
         }
-        if (errorMsgs.length != 0) {
-            var error = new ParameterException(errorMsgs)
-            throw error
+        if (errorMsgs.length !== 0) {
+            throw new ParameterException(errorMsgs)
         }
         ctx.v = this
         return this
     }
 
     async _check(key, alias = {}) {
-        const isCustomFunc = typeof (this[key]) == 'function' ? true : false
-        let result;
+        const isCustomFunc = typeof (this[key]) === 'function'
+        let result
         if (isCustomFunc) {
             try {
                 await this[key](this.data)
@@ -114,7 +111,7 @@ class LinValidator {
 
             if (result.pass) {
                 // 如果参数路径不存在，往往是因为用户传了空值，而又设置了默认值
-                if (param.path.length == 0) {
+                if (param.path.length === 0) {
                     set(this.parsed, ['default', key], result.legalValue)
                 } else {
                     set(this.parsed, param.path, result.legalValue)
@@ -197,8 +194,7 @@ class Rule {
     }
 
     validate(field) {
-        if (this.name == 'isOptional')
-            return new RuleResult(true)
+        if (this.name === 'isOptional') return new RuleResult(true)
         if (!validator[this.name](field + '', ...this.params)) {
             return new RuleResult(false, this.msg || this.message || '参数错误')
         }
@@ -238,14 +234,14 @@ class RuleField {
 
     _convert(value) {
         for (let rule of this.rules) {
-            if (rule.name == 'isInt') {
+            if (rule.name === 'isInt') {
                 return parseInt(value)
             }
-            if (rule.name == 'isFloat') {
+            if (rule.name === 'isFloat') {
                 return parseFloat(value)
             }
-            if (rule.name == 'isBoolean') {
-                return value ? true : false
+            if (rule.name === 'isBoolean') {
+                return Boolean(value)
             }
         }
         return value
@@ -253,7 +249,7 @@ class RuleField {
 
     _allowEmpty() {
         for (let rule of this.rules) {
-            if (rule.name == 'isOptional') {
+            if (rule.name === 'isOptional') {
                 return true
             }
         }
@@ -263,14 +259,12 @@ class RuleField {
     _hasDefault() {
         for (let rule of this.rules) {
             const defaultValue = rule.params[0]
-            if (rule.name == 'isOptional') {
+            if (rule.name === 'isOptional') {
                 return defaultValue
             }
         }
     }
 }
-
-
 
 module.exports = {
     Rule,
