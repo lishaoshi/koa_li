@@ -5,9 +5,15 @@ const handleHttp = async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-   if(error instanceof ParameterException) {
+    const errorFlag = error instanceof ParameterException
+    const devFlag = process.env.NODE_ENV=="dev"
+    // throw error
+    // if(true) {
+    //   throw error
+    // }
+   if(errorFlag) {
       ctx.body = {
-          msg: error.msg[0],
+          msg: error.msg,
           code: error.errorCode,
           request: `${ctx.method} ${ctx.path}` 
       }

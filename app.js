@@ -1,8 +1,11 @@
+
 const koa = require('koa')
 const app = new koa()
-// const classic = require('./app/api/classic')
+const bodyParser = require('koa-bodyparser')
 const { handleHttp } = require('./app/util/handleHttp')
 const InitClass = require('./app/util/init')
+require('./app/model/user')
+app.use(bodyParser())
 app.use(handleHttp)
 console.log(process.env.NODE_ENV)
 InitClass.initPro(app)
