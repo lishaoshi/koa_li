@@ -1,5 +1,5 @@
 let list = {
-  USER_EMAIL: 100,
+  USER_ACCOUNT: 100,
   USER_WECHART: 101,
   USER_MOBILE: 102,
   eachObj

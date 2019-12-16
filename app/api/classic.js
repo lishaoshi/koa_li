@@ -1,7 +1,6 @@
 const Router = require('koa-router')
 const router = new Router()
 const { PositiveIntegerValidators } = require('../validators/validators.js')
-const { httpException } = require('../util/HttpException')
 const { ParameterException } = require('../core/http-exception')
 
 router.get('/test/:id',async (ctx, next)=>{

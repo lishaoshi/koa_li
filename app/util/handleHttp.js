@@ -1,11 +1,10 @@
 
-const { ParameterException } = require ("../core/http-exception")
-const { httpException } = require('./HttpException')
+const { ParameterException, HttpException } = require ("../core/http-exception")
 const handleHttp = async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-    const errorFlag = error instanceof ParameterException
+    const errorFlag = error instanceof ParameterException || error instanceof HttpException
     const devFlag = process.env.NODE_ENV=="dev"
     // throw error
     // if(true) {
@@ -19,10 +18,7 @@ const handleHttp = async (ctx, next) => {
       }
       ctx.status = error.code
    } else {
-    ctx.body = {
-      msg: '服务器错误',
-      code: 500
-    }
+    throw error
    }
   }
 }

@@ -47,7 +47,7 @@ class Forbbiden extends HttpException{
   constructor(msg, errorCode) {
       super()
       this.msg = msg || '禁止访问'
-      this.errorCode = errorCode || 10006
+      this.errorCode = errorCode || 401
       this.code = 403
   }
 }

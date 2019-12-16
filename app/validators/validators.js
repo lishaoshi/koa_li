@@ -20,7 +20,7 @@ class PositiveIntegerValidators extends LinValidator {
 class UserRegisterValidators extends LinValidator {
     constructor() {
         super()
-        this.nickName = [
+        this.nickname = [
             new Rule('isLength', '名称最小长度为4，最大长度为16', {
                 min:4,
                 max: 16
@@ -34,7 +34,24 @@ class UserRegisterValidators extends LinValidator {
         ]
     }
     /**
-     * 验证邮箱是否已经存在
+     * 验证用户名是否已经存在
+     */
+    async validateUserName(vals) {
+        const nickname = vals.body.nickname
+        const data = await user.findOne({
+            where: {
+                nickname: nickname
+            }
+        })
+        if(data) {
+            throw new Error('用户名已存在')
+        }
+    }
+    /**
+     *验证邮箱是否已经存在
+     *
+     * @param {*} vals
+     * @memberof UserRegisterValidators
      */
     async validateEmail(vals) {
         const email = vals.body.email
@@ -72,8 +89,25 @@ class userLogin extends LinValidator {
 }
 
 
+/**
+ * 验证用户id
+ */
+class valifyUserId extends LinValidator {
+    constructor() {
+        super()
+        this.id = [
+            new Rule('isInt', "必须为正整数", {
+                min: 1
+            })
+        ]
+    }
+}
+
+
 module.exports = {
     PositiveIntegerValidators,
     UserRegisterValidators,
-    userLogin
+    userLogin,
+    valifyUserId,
+    
 }

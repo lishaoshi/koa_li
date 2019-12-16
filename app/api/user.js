@@ -7,14 +7,16 @@ router.post('/v1/user/register', async (ctx, next)=> {
   const v = await new UserRegisterValidators().validate(ctx)
   let body = v.get('body')
   let values = {
-    nicename: body.nickName,
+    nickname: body.nickname,
     password: body.password,
     email: body.email
   }
   await user.create(values).then(res=> {
-    
+    ctx.body = '添加成功'
+  }).catch(err=>{
+    ctx.body = '添加失败'
   })
-  ctx.body = '添加成功'
+  
   
   // console.log(body)
   

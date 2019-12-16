@@ -88,6 +88,9 @@ class LinValidator {
         return this
     }
 
+    /***
+     * 遍历验证器的属性
+     */
     async _check(key, alias = {}) {
         const isCustomFunc = typeof (this[key]) === 'function'
         let result
